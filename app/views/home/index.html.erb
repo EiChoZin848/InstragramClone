@@ -1,0 +1,53 @@
+<div class="homepage">
+    <div class="form-upload">
+        <% form_for Post.new, :html =>{:multipart => true} do |f| %>
+            <div class="form-group">
+                <%= f.label :description %>
+                <%= f.text_field :description %>
+            </div>
+            <div class="form-group">
+                <%= f.file_field :image %>
+            </div>
+            <div class="form-group">
+                <%= f.text_field :user_id, :value => current_user.id, :class => 'd-none' %>
+            </div>
+            <br />
+            <div class="text-center">
+                <%= f.submit 'Create Post', :class =>'btn btn-primary' %>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="posts">
+        <% @posts.each do |post| %>
+      
+           
+            <section class="post">
+                <div class="user">
+                    <div class="avatar">
+
+                        <% if post.user.avatar? %>      
+                            
+                            <%= link_to (image_tag post.user.avatar_url), user_path(post.user), :class=>'username' %>
+                        <% end %> 
+                    </div>
+                    <div class="username">
+                        <%= post.user.username %>
+                    </div>
+                </div>
+                <%= image_tag (post.image_url, :size=>'200x500', :class=>'main-image') if post.image?  %>
+                <div class="description">
+                    <% post.description.to_s.split(' ').each do |word| %>
+                        <% if word.start_with?('#') %>
+                            <%= link_to word, search_index_path(:query => word) %>
+                        <% else %>
+                            <%= word %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </section>
+       
+        <% end %>
+        <%= will_paginate @posts %>
+    </div>
+</div>

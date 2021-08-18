@@ -1,0 +1,22 @@
+<h2>Change your password</h2>
+
+<div class="ibox-content">
+  <% form_for resource_name, resource, :url => password_path(resource_name), :html => { :method => :put } do |f| %>
+    <%= f.error_messages %>
+    <%= f.hidden_field :reset_password_token %>
+
+    <div class="form-group">
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %>
+    </div>
+
+    <p><%= f.submit "Change my password" %></p>
+  <% end %>
+
+  <%= render :partial => "shared/devise_links" %>
+</div>

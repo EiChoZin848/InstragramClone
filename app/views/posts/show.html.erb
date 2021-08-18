@@ -1,0 +1,28 @@
+<div class="post-show row">
+  <div class="col-md-8">
+    <!-- show post image -->
+    <%= image_tag @post.image_url, :size=>'300x600', :class=>'image' %>
+  </div>
+<div class="col-md-4">
+    <!-- show user info and description of post -->
+    <div class="user">
+        <div class="avatar">
+            <% if @post.user.avatar? %>
+                <%= link_to (image_tag @post.user.avatar_url, :size=>'50x50'), user_path(@post.user) %>
+            <% end %>
+        </div>
+        <div class='username'>
+        <%= link_to @post.user.username, user_path(@post.user), :class => 'username' %>
+        </div>
+    </div>
+    <div class="description">
+        <%= @post.description %>
+    </div>
+    <div class="delete">
+        <% if (user_signed_in? && current_user.id == @post.user_id) %>
+            <%= link_to "Remove", post_path(@post), :method=> :delete, :confirm => "Are you sure that you wish to delete?"  %>
+        <% end %>
+            
+    </div>
+  </div>
+</div>
